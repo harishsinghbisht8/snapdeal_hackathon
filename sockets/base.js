@@ -36,7 +36,7 @@ module.exports = function (io) {
 
       users[socket.id] = {
         name : socket.handshake.query.name,
-        id: socket.id;
+        id: socket.id,
         game : []
       };
 
@@ -68,7 +68,7 @@ module.exports = function (io) {
       socket.join(gameid)
 
      //send message to both the users to continue
-    socket.broadcast.to(gameid).emit('message','Please start playing');
+    io.sockets.in(gameid).emit('message','Please start playing');
 
       delete requestedgameuser[gameid];
       //broadcast list to all the users
@@ -90,8 +90,6 @@ module.exports = function (io) {
 
       socket.on('disconnect', function () {
 
-          delete users[socket.id];
-
           //delete all the created game
           var games = users[socket.id].game;
 
@@ -99,6 +97,7 @@ module.exports = function (io) {
             delete requestedgameuser[gameid];
           });
 
+           delete users[socket.id];
           //notify to all users
           socket.broadcast.emit('gamerequest', requestedgameuser);
 
