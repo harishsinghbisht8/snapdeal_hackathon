@@ -19,7 +19,7 @@ redisClient.on('end', function(err) {
 
     });
 
-var users = [];
+var users = {};
 
 var requestedgameuser= {};
 
@@ -34,14 +34,15 @@ module.exports = function (io) {
 
       // store in the user list
 
-      users.push({
+      users[socket.id] = {
         name : socket.handshake.query.name,
-        id: socket
-      })
+        id: socket.id;
+        game : []
+      };
 
 
       // send a message about all requestd users
-       socket.emit('gamerequest', requestedgameuser);;
+       socket.emit('gamerequest', requestedgameuser);
 
 
 
@@ -56,6 +57,7 @@ module.exports = function (io) {
           creator: socket.id
       };
 
+          users[socket.id].game.push(roomname + '_' + socket.id);
       //broadcast list to all the users
     socket.broadcast.emit('gamerequest', requestedgameuser);
 
@@ -87,6 +89,20 @@ module.exports = function (io) {
     });
 
       socket.on('disconnect', function () {
+
+          delete users[socket.id];
+
+          //delete all the created game
+          var games = users[socket.id].game;
+
+          games.forEach(function(gameid){
+            delete requestedgameuser[gameid];
+          });
+
+          //notify to all users
+          socket.broadcast.emit('gamerequest', requestedgameuser);
+
+          //send message to competetor that you won if a game is on
 
         });
 
