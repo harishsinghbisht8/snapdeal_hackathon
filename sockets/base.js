@@ -87,19 +87,7 @@ module.exports = function (io) {
     });
 
       socket.on('disconnect', function () {
-          if(currentRoom !== userid) {
-            app.syslog.info(userid + ' removed from room : ' + currentRoom);
-          }
-          updateOnlineUser(app, orgid, userid, 'offline', function(data) {
-            if(data === 0) {
-              nsp.emit('presenceupdate', {
-                'orgid': orgid,
-                'actor': userid,
-                'verb': 'offline',
-                'context' : 'everywhere'
-              });
-            }
-          });
+
         });
 
   });
