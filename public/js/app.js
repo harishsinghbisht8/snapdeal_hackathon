@@ -176,6 +176,7 @@
                 socket.emit("move", gridStatus);
                 $cell.html(gridStatus.currentMove==1 ? "x" : "0")
                 gridStatus.moveCount += 2;
+                $("#pageMessage").html("Hi, " + userName + "! Please wait while another user make his turn");
             }
         }
     });
