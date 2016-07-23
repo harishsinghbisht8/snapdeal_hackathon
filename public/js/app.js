@@ -65,18 +65,9 @@
 
         socket.on("move", function(data) {
 
-            console.log(data);
-            console.log(data.matrix["0"]["0"],data.matrix["0"]["1"], data.matrix["0"]["2"]);
-            gridStatus.matrix = [
-                [0 , 0 , 0],
-                [0,0,0],
-                [0,0,0]
-            ];
-            gridStatus.matrix[0] = [ "" +data.matrix["0"]["0"],"" +data.matrix["0"]["1"], "" +data.matrix["0"]["2"]];
-            gridStatus.matrix[1] = [ "" +data.matrix["1"]["0"],"" +data.matrix["1"]["1"], "" +data.matrix["1"]["2"]];
-            gridStatus.matrix [2] = [ "" +data.matrix["2"]["0"],"" +data.matrix["2"]["1"], "" +data.matrix["2"]["2"]];
+            console.log(data)
+            gridStatus.matrix = data.matrix;
 
-            console.log(gridStatus.matrix )
             paintGrids(gridStatus.matrix);
 
             if(data.result == "1") {
@@ -108,9 +99,10 @@
     function paintGrids(matrix) {
         var gridHtml = "";
         var isMatrix = !!matrix;
+        gridStatus.matrix = isMatrix ? matrix  : [];
 
         for(var index = 0; index < level; ++index) {
-            gridStatus.matrix[index] = [];
+            x = [];
             gridHtml += '<div class="row">';
             for(var j=0; j<level; ++j) {
                 if(isMatrix) {
@@ -118,9 +110,13 @@
                     currentText = currentText==0 ? "" : (currentText==1? "x" : "0");
                     gridHtml += '<div class="col" data-row="' + index +  '" data-col="' + j + '">' + currentText + '</div>';
                 } else {
-                    gridStatus.matrix[index][j] = 0;
+                    x.push(0);
                     gridHtml += '<div class="col" data-row="' + index +  '" data-col="' + j + '"></div>';
                 }
+
+            }
+            if(!isMatrix) {
+                gridStatus.matrix.push(x);
             }
             gridHtml += "</div>";
         }

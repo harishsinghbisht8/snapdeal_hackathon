@@ -97,29 +97,12 @@ module.exports = function (io) {
         //check for result
 
         var moveresult = gamelogic(data)
-        console.log(moveresult)
-        moveresult.matrix = {
-            "0": {
-                "0" : moveresult.matrix[0][0],
-                "1" : moveresult.matrix[0][1],
-                "2" : moveresult.matrix[0][2]
-            },
-            "1": {
-                "0" : moveresult.matrix[1][0],
-                "1" : moveresult.matrix[1][1],
-                "2" : moveresult.matrix[1][2]
-            },
-            "2": {
-                "0" : moveresult.matrix[2][0],
-                "1" : moveresult.matrix[2][1],
-                "2" : moveresult.matrix[2][2]
-            }
-        }
+
 
         if(moveresult.result === "draw") {
             io.sockets.in(data.gameid).emit('move',moveresult);
         } else if((moveresult.result === "won")){
-            moveresult.result === data.currentMove + '';
+            moveresult.result = data.currentMove + '';
             io.sockets.in(data.gameid).emit('move',moveresult);
         }
         else {
