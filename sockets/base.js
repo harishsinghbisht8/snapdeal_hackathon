@@ -1,3 +1,5 @@
+var gamelogic = require('./logic.js');
+
 var redis = require('redis');
 
 var redisClient = redis.createClient(15970, 'pub-redis-15970.us-east-1-2.1.ec2.garantiadata.com');
@@ -61,6 +63,10 @@ module.exports = function (io) {
       //broadcast list to all the users
     socket.broadcast.emit('gamerequest', requestedgameuser);
 
+        ongoinggame[gameid]= {
+            player1 : socket.id
+        };
+
     });
 
       // event send by user to accept a game challenge
@@ -72,6 +78,12 @@ module.exports = function (io) {
 
       delete requestedgameuser[gameid];
       //broadcast list to all the users
+
+        ongoinggame[gameid]= {
+            player2 : socket.id,
+            move : 'player1'
+        };
+
         socket.broadcast.emit('gamerequest', requestedgameuser);
 
     });
@@ -87,6 +99,22 @@ module.exports = function (io) {
         socket.broadcast.emit('gamerequest', requestedgameuser);
 
     });
+
+    socket.on('move', function(data)) {
+        //check for result
+
+        var moveresult = gamelogic(data)
+        if(moveresult.result === "draw") {
+            io.sockets.in(data.gameid).emit('move',moveresult);
+        } else if((moveresult.result === "won")){
+            moveresult.result === data.currentMove + '';
+            io.sockets.in(data.gameid).emit('move',moveresult);
+        }
+        else {
+            socket.broadcast.to(data.gameid).emit('move',moveresult);
+        }
+
+    }
 
       socket.on('disconnect', function () {
 
