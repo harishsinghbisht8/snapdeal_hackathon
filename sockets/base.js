@@ -1,4 +1,4 @@
-var gamelogic = require('./logic.js');
+var gamelogic = require('../logic.js');
 
 var redis = require('redis');
 
@@ -100,7 +100,7 @@ module.exports = function (io) {
 
     });
 
-    socket.on('move', function(data)) {
+    socket.on('move', function(data) {
         //check for result
 
         var moveresult = gamelogic(data)
@@ -114,7 +114,7 @@ module.exports = function (io) {
             socket.broadcast.to(data.gameid).emit('move',moveresult);
         }
 
-    }
+    });
 
       socket.on('disconnect', function () {
 
