@@ -33,7 +33,7 @@ module.exports = function(obj) {
         if(matrix[x][i] != currentMove)
             break;
         if(i == n-1){
-            resultdata.result = 'gameover';
+            resultdata.result = 'won';
             console.log("won");
             //report win for s
         }
@@ -44,7 +44,7 @@ module.exports = function(obj) {
         if(matrix[i][y] != currentMove)
             break;
         if(i == n-1){
-            resultdata.result = 'gameover';
+            resultdata.result = 'won';
             console.log("won");
             //report win for s
         }
