@@ -22,8 +22,8 @@ module.exports = function(obj) {
     }
 
     var resultdata = {
-        result : 'progress',
-        matrix: matrix
+        "result" : "progress",
+        "matrix": matrix
     }
 
     //check end conditions
@@ -33,7 +33,7 @@ module.exports = function(obj) {
         if(matrix[x][i] != currentMove)
             break;
         if(i == n-1){
-            resultdata.result = 'won';
+            resultdata.result = "won";
             console.log("won");
             //report win for s
         }
@@ -44,7 +44,7 @@ module.exports = function(obj) {
         if(matrix[i][y] != currentMove)
             break;
         if(i == n-1){
-            resultdata.result = 'won';
+            resultdata.result = "won";
             console.log("won");
             //report win for s
         }
@@ -57,7 +57,7 @@ module.exports = function(obj) {
             if(matrix[i][i] != currentMove)
                 break;
             if(i == n-1){
-                resultdata.result = 'won';
+                resultdata.result = "won";
                 console.log("won");
                 //report win for s
             }
@@ -68,7 +68,7 @@ module.exports = function(obj) {
             if(matrix[i][(n-1)-i] != currentMove)
                 break;
             if(i == n-1){
-                resultdata.result = 'won';
+                resultdata.result = "won";
                 console.log("won");
                 //report win for s
             }
@@ -77,7 +77,7 @@ module.exports = function(obj) {
 
     //check draw
     if(moveCount == (n*n)){
-        resultdata.result = 'draw';
+        resultdata.result = "draw";
         console.log('draw game over')
         //report draw
     }

@@ -64,11 +64,19 @@
         });
 
         socket.on("move", function(data) {
+
             console.log(data);
-            console.log(typeof  data)
-            data = JSON.parse(data);
-            console.log(data)
-            gridStatus.matrix = data.matrix;
+            console.log(data.matrix["0"]["0"],data.matrix["0"]["1"], data.matrix["0"]["2"]);
+            gridStatus.matrix = [
+                [0 , 0 , 0],
+                [0,0,0],
+                [0,0,0]
+            ];
+            gridStatus.matrix[0] = [ "" +data.matrix["0"]["0"],"" +data.matrix["0"]["1"], "" +data.matrix["0"]["2"]];
+            gridStatus.matrix[1] = [ "" +data.matrix["1"]["0"],"" +data.matrix["1"]["1"], "" +data.matrix["1"]["2"]];
+            gridStatus.matrix [2] = [ "" +data.matrix["2"]["0"],"" +data.matrix["2"]["1"], "" +data.matrix["2"]["2"]];
+
+            console.log(gridStatus.matrix )
             paintGrids(gridStatus.matrix);
 
             if(data.result == "1") {
