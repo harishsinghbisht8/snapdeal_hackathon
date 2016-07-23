@@ -108,7 +108,12 @@
                 if(isMatrix) {
                     var currentText = gridStatus.matrix[index][j];
                     currentText = currentText==0 ? "" : (currentText==1? "x" : "0");
-                    gridHtml += '<div class="col" data-row="' + index +  '" data-col="' + j + '">' + currentText + '</div>';
+                    if (currentText) {
+                        gridHtml += '<div class="col disabled" data-row="' + index +  '" data-col="' + j + '">' + currentText + '</div>';
+                    } else {
+                        gridHtml += '<div class="col" data-row="' + index +  '" data-col="' + j + '">' + currentText + '</div>';
+                    }
+
                 } else {
                     x.push(0);
                     gridHtml += '<div class="col" data-row="' + index +  '" data-col="' + j + '"></div>';
