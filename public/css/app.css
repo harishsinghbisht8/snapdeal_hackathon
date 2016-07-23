@@ -38,3 +38,12 @@ input {
     padding: 10px;
     height: 16px;
 }
+
+.avlbl-rooms {
+    margin-bottom: 20px;
+}
+.room {
+    padding: 10px;
+    cursor: pointer;
+    color: #1fb0de;
+}
