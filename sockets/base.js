@@ -52,6 +52,8 @@ module.exports = function (io) {
 
       // event send by user to create his game room
       socket.on('creategameroom', function (roomname) {
+
+          console.log('i am here')
       socket.join(roomname + '_' + socket.id)
       requestedgameuser[roomname + '_' + socket.id] = {
         name: roomname,
@@ -63,9 +65,6 @@ module.exports = function (io) {
       //broadcast list to all the users
     socket.broadcast.emit('gamerequest', requestedgameuser);
 
-        ongoinggame[gameid]= {
-            player1 : socket.id
-        };
 
     });
 
@@ -78,11 +77,6 @@ module.exports = function (io) {
 
       delete requestedgameuser[gameid];
       //broadcast list to all the users
-
-        ongoinggame[gameid]= {
-            player2 : socket.id,
-            move : 'player1'
-        };
 
         socket.broadcast.emit('gamerequest', requestedgameuser);
 
