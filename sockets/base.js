@@ -97,14 +97,15 @@ module.exports = function (io) {
         //check for result
 
         var moveresult = gamelogic(data)
+        console.log(moveresult)
         if(moveresult.result === "draw") {
-            io.sockets.in(data.gameid).emit('move',moveresult);
+            io.sockets.in(data.gameid).emit('move',JSON.stringify(moveresult));
         } else if((moveresult.result === "won")){
             moveresult.result === data.currentMove + '';
-            io.sockets.in(data.gameid).emit('move',moveresult);
+            io.sockets.in(data.gameid).emit('move',JSON.stringify(moveresult));
         }
         else {
-            socket.broadcast.to(data.gameid).emit('move',moveresult);
+            socket.broadcast.to(data.gameid).emit('move',JSON.stringify(moveresult));
         }
 
     });

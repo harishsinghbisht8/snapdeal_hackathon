@@ -11,7 +11,8 @@
         x: 0,
         y: 0,
         matrix: [],
-        moveCount: 1
+        moveCount: 1,
+        gameid: null
     };
 
     var isUsersTurn = false;
@@ -31,7 +32,12 @@
             showPartial("roomPartial");
         });
 
+        socket.on("gamecreated", function(data) {
+            gridStatus.gameid = data;
+        });
+
         socket.on("gamerequest", function (data) {
+            console.log(data);
             var $rooms = $("#rooms");
             var roomsHtml = "";
             var roomIdArray = Object.keys(data);
@@ -51,9 +57,17 @@
 
         socket.on("message", function (data) {
             $("#gamePartial").removeClass("disabled");
+            if(gridStatus.currentMove==1) {
+                isUsersTurn = true;
+                $("#pageMessage").html("Hi, " + userName + "! User connected. Please make your move.");
+            }
         });
 
         socket.on("move", function(data) {
+            console.log(data);
+            console.log(typeof  data)
+            data = JSON.parse(data);
+            console.log(data)
             gridStatus.matrix = data.matrix;
             paintGrids(gridStatus.matrix);
 
@@ -127,6 +141,7 @@
         paintGrids();
         gridStatus.currentMove = 2;
         gridStatus.moveCount = 2;
+        gridStatus.gameid = $room.attr("data-key");
         $("#gamePartial").removeClass("disabled");
         $("#pageMessage").html("Hi, " + userName + "! You connected to the  game room. Wait till he makes his move.");
     });
@@ -144,17 +159,19 @@
         }
     });
 
-    $("#tttCntnr").on("click", function() {
+    $("#tttCntnr").on("click", function(event) {
         if(isUsersTurn && !$("#gamePartial").hasClass("disabled")) {
-            var $cell = $(this);
+            var $cell = $(event.target);
 
             if(!$cell.hasClass("disabled")) {
                 isUsersTurn = false;
                 $cell.addClass("disabled");
-                gridStatus.moveCount += 2;
+
                 gridStatus.x = $cell.attr("data-row");
                 gridStatus.y = $cell.attr("data-col");
                 socket.emit("move", gridStatus);
+                $cell.html(gridStatus.currentMove==1 ? "x" : "0")
+                gridStatus.moveCount += 2;
             }
         }
     });

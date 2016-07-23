@@ -76,7 +76,7 @@ module.exports = function(obj) {
     }
 
     //check draw
-    if(moveCount == (n^2)){
+    if(moveCount == (n*n)){
         resultdata.result = 'draw';
         console.log('draw game over')
         //report draw
