@@ -1,6 +1,29 @@
+var redis = require('redis');
+
+var redisClient = redis.createClient(15970, 'pub-redis-15970.us-east-1-2.1.ec2.garantiadata.com');
+
+  // REDIS Events
+    redisClient.on('connect', function() {
+      console.log('hello there')
+    });
+
+  redisClient.on('disconnected', function(err) {
+
+    });
+
+  redisClient.on('error', function(err) {
+
+    });
+
+redisClient.on('end', function(err) {
+
+    });
+
 var users = [];
 
 var requestedgameuser= {};
+
+var ongoinggame = {}
 
 module.exports = function (io) {
   io.on('connection', function (socket) {
@@ -29,7 +52,8 @@ module.exports = function (io) {
       socket.join(roomname + '_' + socket.id)
       requestedgameuser[roomname + '_' + socket.id] = {
         name: roomname,
-        gameid: roomname + '_' + socket.id
+        gameid: roomname + '_' + socket.id,
+          creator: socket.id
       };
 
       //broadcast list to all the users
@@ -37,7 +61,7 @@ module.exports = function (io) {
 
     });
 
-      // event send by user to create his game room
+      // event send by user to accept a game challenge
       socket.on('acceptchallenge', function (gameid) {
       socket.join(gameid)
 
@@ -51,17 +75,32 @@ module.exports = function (io) {
     });
 
 
-    /*socket.on('join', function(room) {
-      socket.join(room);
-      socket.on('message', function(msg) {
-        socket.broadcast.to(room).emit('message', msg);
-      });
-    });*/
-   /* socket.emit('message', { user: 'Server', message:'Welcome to harish quich chat service :P' });
-    socket.on('message', function (data) {
-      console.log('again');
-      //socket.broadcast.emit('message', data);
-      io.sockets.emit('message', data);
-    });*/
+        // event send by user to distroy his game room
+      socket.on('closegame', function (gameid) {
+
+          if(socket.id === requestedgameuser[gameid].creator) {
+            delete requestedgameuser[gameid];
+          }
+        //broadcast list to all the users
+        socket.broadcast.emit('gamerequest', requestedgameuser);
+
+    });
+
+      socket.on('disconnect', function () {
+          if(currentRoom !== userid) {
+            app.syslog.info(userid + ' removed from room : ' + currentRoom);
+          }
+          updateOnlineUser(app, orgid, userid, 'offline', function(data) {
+            if(data === 0) {
+              nsp.emit('presenceupdate', {
+                'orgid': orgid,
+                'actor': userid,
+                'verb': 'offline',
+                'context' : 'everywhere'
+              });
+            }
+          });
+        });
+
   });
 }
