@@ -64,8 +64,7 @@ module.exports = function (io) {
           users[socket.id].game.push(roomname + '_' + socket.id);
       //broadcast list to all the users
     socket.broadcast.emit('gamerequest', requestedgameuser);
-
-
+    socket.emit('gamecreated', roomname + '_' + socket.id);
     });
 
       // event send by user to accept a game challenge
