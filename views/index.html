@@ -1,18 +1,68 @@
-<head>
-  <title>Harry's chat service</title>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Tic Tac Toe - Underscores</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/app.css">
 </head>
 <body>
-  <h1>Please give few seconds</h1>
-  <form action="/chat" method="post">
-  Your name: <input type="text" id="my_user" name="userName" value="Guest" placeholder="Guest">
-  <br><br>
-  Chatroom :
-  <select name="chatroom">
-    <option value="open" selected="selected">open</option>
-    <option value="sushil_wala">sushil wala</option>
-  </select>
-  <br><br>
-  <input type="submit" value="Enter chat room" id="enter_room">
-  </div>
-</form>
+
+    <h1>Tic Tac Toe - Underscores</h1>
+
+    <div class="page-message" id="pageMessage">Please enter your name to start</div>
+
+    <div class="page-partial" id="userNamePartial">
+        <input id="userName" placeholder="Enter your name" />
+        <button class="submit" id="userSubmit">Submit</button>
+    </div>
+
+    <div class="page-partial u-hide" id="roomPartial">
+
+        <div class="avlbl-rooms">
+            You can join from these available game rooms
+
+            <div class="rooms" id="rooms">
+
+            </div>
+        </div>
+
+        <div class="create-room">
+            <input id="roomName" placeholder="Enter your name" />
+            <button class="submit" id="roomSubmit">Submit</button>
+        </div>
+    </div>
+
+    <div class="page-partial u-hide" id="gameLevelPartial">
+        <div class="grid-options">
+            <button data-grids="3">3</button>
+            <button data-grids="4">4</button>
+            <button data-grids="5">5</button>
+            <button data-grids="6">6</button>
+            <button data-grids="7">7</button>
+            <button data-grids="8">8</button>
+            <button data-grids="9">9</button>
+        </div>
+    </div>
+
+    <div class="page-partial u-hide disabled" id="gamePartial">
+        <div class="ttt-cntnr">
+
+        </div>
+
+        <div class="ttt-options">
+            <button class="tt-x">x</button>
+            <button class="tt-0">0</button>
+        </div>
+
+        <div id="changeLevel" class="u-hide">Change Game Level</div>
+    </div>
+
+
+
+
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="/lib/socket.io/socket.io.js"></script>
+    <script src="/js/app.js"></script>
 </body>
+</html>

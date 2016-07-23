@@ -1,0 +1,40 @@
+body {
+    background-color: #F5F5F5;
+    max-width: 1280px;
+    margin: auto;
+    color: #333;
+    font-size: 14px;
+    padding: 0 20px;
+
+
+    /*-webkit-box-shadow: 3px 3px 3px 0 #c2c0c2;
+    -moz-box-shadow: 3px 3px 3px 0 #c2c0c2;
+    box-shadow: 3px 3px 3px 0 #c2c0c2;*/
+}
+
+
+button {
+    border: none;
+}
+
+.u-hide {
+    display: none;
+}
+
+.page-message {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+button.submit {
+    background-color: #1fb0de;
+    color: #fff;
+    padding: 10px 20px;
+    height: 40px;
+    margin-left: 20px;
+}
+
+input {
+    padding: 10px;
+    height: 16px;
+}
