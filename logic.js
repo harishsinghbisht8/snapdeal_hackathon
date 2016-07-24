@@ -52,7 +52,7 @@ module.exports = function(obj) {
 
     //check diag
     if(x+y==(n-1) || x==y){
-        //we're on a diagonal
+        //on a diagonal
         for(var i = 0; i < n; i++){
             if(matrix[i][i] != currentMove)
                 break;
@@ -63,7 +63,7 @@ module.exports = function(obj) {
             }
         }
 
-         //check anti diag (thanks rampion)
+         //check anti diag
         for(var i = 0;i<n;i++){
             if(matrix[i][(n-1)-i] != currentMove)
                 break;
